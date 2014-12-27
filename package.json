@@ -1,6 +1,6 @@
 {
   "name": "grunt-iconpack",
-  "description": "Package SVG icons as San SVG sprite.",
+  "description": "Package SVG icons as an SVG sprite.",
   "version": "0.0.1",
   "homepage": "https://github.com/ry5n/grunt-iconpack",
   "author": {

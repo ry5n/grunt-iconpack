@@ -24,7 +24,7 @@ module.exports = function(grunt) {
   // Restore the working directory.
   process.chdir(cwd);
 
-  grunt.registerMultiTask('iconpack', 'Package SVG icons as San SVG sprite.', function() {
+  grunt.registerMultiTask('iconpack', 'Package SVG icons as an SVG sprite.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var defaults = {
       output: 'svg sprite'

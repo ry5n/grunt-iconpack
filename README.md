@@ -1,6 +1,6 @@
 # grunt-iconpack
 
-> Package SVG icons as San SVG sprite. Support for webfonts is planned.
+> Package SVG icons as an SVG sprite. Support for webfonts is planned.
 
 ## Getting Started
 
