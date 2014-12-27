@@ -24,16 +24,16 @@ module.exports = function(grunt) {
   // Restore the working directory.
   process.chdir(cwd);
 
-  grunt.registerMultiTask('iconpack', 'Package SVG icons as San SVG sprite or webfont.', function() {
+  grunt.registerMultiTask('iconpack', 'Package SVG icons as San SVG sprite.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var defaults = {
-      type: 'svg sprite'
+      output: 'svg sprite'
     };
     var options = this.options(defaults);
     var files = {src: [], dest: ''};
     var data = this.data;
 
-    if (options.type !== defaults.type) {
+    if (options.output !== defaults.output) {
       grunt.log.warn('Only SVG sprites are supported at the moment.');
       return false;
     }

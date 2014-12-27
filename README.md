@@ -1,8 +1,9 @@
 # grunt-iconpack
 
-> Package SVG icons as San SVG sprite or webfont.
+> Package SVG icons as San SVG sprite. Support for webfonts is planned.
 
 ## Getting Started
+
 This plugin requires Grunt `~0.4.5`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
@@ -29,7 +30,8 @@ grunt.initConfig({
       // Task-specific options go here.
     },
     your_target: {
-      // Target-specific file lists and/or options go here.
+      // Target-specific options and configuration go here. Note this module
+      // does not use the normal `files` key for input/output mapping.
     },
   },
 });
@@ -37,53 +39,66 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.output
 Type: `String`
-Default value: `',  '`
+Default value: `svg sprite`
 
-A string value that is used to do something with whatever.
+Currently only accepts the default value. In future will support `webfont` or similar for packaging as a webfont.
 
-#### options.punctuation
+## Other Configuration
+
+This module doesn’t use the normal `files` key for input/output mapping. Instead, it uses three custom keys: `icons`, `sources` and `dest`. The normal content for `files.src` is built dynamically from `icons` and `sources` (see details below). The `dest` key accepts a string for a single file destination.
+
+#### icons
+Type: `Array`
+Default value: none
+
+Accepts an array of icon names. Each directory configured in the `sources` array will be searched for SVG files with these names (minus extension). So for an array value `menu`, `sources` will be searched for `menu.svg`.
+
+#### sources
+Type: `Array`
+Default value: none
+
+Accepts an array of directory paths. For each value configured in the `icons` array, the `sources` directory paths will be searched *in reverse* for a file named `{icon}.svg`. The first matching file for each icon will be used.
+
+This behaviour is intended to make it easy to substitute an icon in a vendor set with a local version with the same name by specifying the local source directory after the vendor directory. So for a `sources` array of `['vendor/svg', 'my/svg']`, `{icon}.svg` is first searched for in `my/svg`. If found, it will be used. If not, `vendor/svg` will be searched, and so on.
+
+Currently, only files directly in the specified `source` directories – not sub-directories – will be found.
+
+#### dest
 Type: `String`
-Default value: `'.'`
+Default value: none
 
-A string value that is used to do something else with whatever else.
+Accepts a string specifying the output icon file (SVG sprite). Includes the path, file name and extension.
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+#### Build an SVG sprite from two SVG sources
+In this example, two sets of SVGs from different sources (here, a Bower component and some local files) are combined into one sprite.
 
 ```js
 grunt.initConfig({
   iconpack: {
     options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  iconpack: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+    icons: [
+      'chevron-right',
+      'chevron-down',
+      'menu',
+      'search'
+    ],
+    sources: [
+      'bower_components/some-icon-lib/svg',
+      'assets/images/icons/src'
+    ],
+    dest: 'assets/images/icons/sprite.svg'
   },
 });
 ```
 
 ## Contributing
+
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+
 _(Nothing yet)_
