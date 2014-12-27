@@ -30,19 +30,19 @@ exports.iconpack = {
   default_options: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/default_options');
-    var expected = grunt.file.read('test/expected/default_options');
-    test.equal(actual, expected, 'should describe what the default behavior is.');
+    var actual = grunt.file.read('tmp/svg-sprite/default-options.svg');
+    var expected = grunt.file.read('test/expected/svg-sprite/default-options.svg');
+    test.equal(actual, expected, 'Should build an SVG symbol sheet from given sources.');
 
     test.done();
   },
-  custom_options: function(test) {
+  multiple_sources: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/custom_options');
-    var expected = grunt.file.read('test/expected/custom_options');
-    test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+    var actual = grunt.file.read('tmp/svg-sprite/multiple-sources.svg');
+    var expected = grunt.file.read('test/expected/svg-sprite/multiple-sources.svg');
+    test.equal(actual, expected, 'Should build icons from multiple sources.');
 
     test.done();
-  },
+  }
 };

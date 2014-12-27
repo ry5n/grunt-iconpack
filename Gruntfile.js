@@ -31,20 +31,27 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     iconpack: {
       default_options: {
-        options: {
-        },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
-        }
+        options: {},
+        icons: [
+          'chevron-up',
+          'chevron-down',
+          'menu',
+          'search'
+        ],
+        sources: ['test/fixtures/main'],
+        dest: 'tmp/svg-sprite/default-options.svg'
       },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!'
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
-        }
+
+      multiple_sources: {
+        options: {},
+        icons: [
+          'chevron-up',
+          'chevron-down',
+          'menu',
+          'search'
+        ],
+        sources: ['test/fixtures/main', 'test/fixtures/alt'],
+        dest: 'tmp/svg-sprite/multiple-sources.svg'
       }
     },
 

@@ -8,43 +8,88 @@
 
 'use strict';
 
+var path = require('path');
+
 module.exports = function(grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+  // Change from the parent Gruntfile’s dir to this module’s dir so that
+  // loadNpmTasks finds our dependencies.
+  var cwd = process.cwd();
+  process.chdir(path.join(__dirname, '../'));
+
+  // Load tasks from shoppicon’s dependencies.
+  grunt.loadNpmTasks('grunt-svgstore');
+  grunt.loadNpmTasks('grunt-svgmin');
+
+  // Restore the working directory.
+  process.chdir(cwd);
 
   grunt.registerMultiTask('iconpack', 'Package SVG icons as San SVG sprite or webfont.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
+    var defaults = {
+      type: 'svg sprite'
+    };
+    var options = this.options(defaults);
+    var files = {src: [], dest: ''};
+    var data = this.data;
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
+    if (options.type !== defaults.type) {
+      grunt.log.warn('Only SVG sprites are supported at the moment.');
+      return false;
+    }
+
+    data.icons.forEach(function(icon) {
+      for (var i = data.sources.length - 1; i >= 0; i--) {
+        var file = path.join(data.sources[i], icon + '.svg');
+
+        if (grunt.file.exists(file)) {
+          files.src.push(file);
+          break;
         }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
-
-      // Handle options.
-      src += options.punctuation;
-
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+      }
     });
+
+    if (!files.src.length) {
+      grunt.log.warn('No icons found. Make sure at least one directory is given in the `sources` key.');
+      return false;
+    }
+
+    if (typeof data.dest === 'string') {
+      files.dest = data.dest;
+    } else {
+      grunt.log.warn('Dest must be a single path string.');
+      return false;
+    }
+
+    grunt.log.writeln(files.src);
+    grunt.log.writeln(files.dest);
+
+    grunt.config.merge({
+        svgstore: {
+            iconpack: {
+                files: [{
+                  src: files.src,
+                  dest: files.dest
+                }],
+            },
+        },
+        svgmin: {
+            iconpack: {
+                options: {
+                    plugins: [
+                        {removeTitle: true},
+                        {cleanupIDs: false}
+                    ]
+                },
+                files: [{
+                    expand: true,
+                    src: files.dest
+                }]
+            }
+        }
+    });
+
+    grunt.task.run(['svgstore:iconpack', 'svgmin:iconpack']);
   });
 
 };
