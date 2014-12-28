@@ -12,17 +12,9 @@ var path = require('path');
 
 module.exports = function(grunt) {
 
-  // Change from the parent Gruntfile’s dir to this module’s dir so that
-  // loadNpmTasks finds our dependencies.
-  var cwd = process.cwd();
-  process.chdir(path.join(__dirname, '../'));
-
-  // Load tasks from shoppicon’s dependencies.
+  // Load dependencies.
   grunt.loadNpmTasks('grunt-svgstore');
   grunt.loadNpmTasks('grunt-svgmin');
-
-  // Restore the working directory.
-  process.chdir(cwd);
 
   grunt.registerMultiTask('iconpack', 'Package SVG icons as an SVG sprite.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
