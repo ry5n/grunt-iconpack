@@ -52,6 +52,17 @@ module.exports = function(grunt) {
         ],
         sources: ['test/fixtures/main', 'test/fixtures/alt'],
         dest: 'tmp/svg-sprite/multiple-sources.svg'
+      },
+
+      glob_sources: {
+        options: {},
+        icons: [
+          'chevron-*',
+          'menu',
+          'search'
+        ],
+        sources: ['test/fixtures/main', 'test/fixtures/alt'],
+        dest: 'tmp/svg-sprite/glob-sources.svg'
       }
     },
 

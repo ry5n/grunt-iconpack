@@ -32,10 +32,10 @@ module.exports = function(grunt) {
 
     data.icons.forEach(function(icon) {
       for (var i = data.sources.length - 1; i >= 0; i--) {
-        var file = path.join(data.sources[i], icon + '.svg');
+        var matchedFiles = grunt.file.expand(path.join(data.sources[i], icon + '.svg'));
 
-        if (grunt.file.exists(file)) {
-          files.src.push(file);
+        if (matchedFiles.length) {
+          Array.prototype.push.apply(files.src, matchedFiles);
           break;
         }
       }

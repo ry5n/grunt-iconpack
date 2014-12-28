@@ -27,6 +27,7 @@ exports.iconpack = {
     // setup here if necessary
     done();
   },
+
   default_options: function(test) {
     test.expect(1);
 
@@ -36,12 +37,23 @@ exports.iconpack = {
 
     test.done();
   },
+
   multiple_sources: function(test) {
     test.expect(1);
 
     var actual = grunt.file.read('tmp/svg-sprite/multiple-sources.svg');
     var expected = grunt.file.read('test/expected/svg-sprite/multiple-sources.svg');
     test.equal(actual, expected, 'Should build icons from multiple sources.');
+
+    test.done();
+  },
+
+  glob_sources: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/svg-sprite/glob-sources.svg');
+    var expected = grunt.file.read('test/expected/svg-sprite/glob-sources.svg');
+    test.equal(actual, expected, 'Should allow icons to be glob patterns.');
 
     test.done();
   }
