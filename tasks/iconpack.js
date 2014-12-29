@@ -17,52 +17,97 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-svgmin');
 
   grunt.registerMultiTask('iconpack', 'Package SVG icons as an SVG sprite.', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
+
+    if (grunt.option('debug')) {
+      grunt.log.writeln('Original normalized files:', JSON.stringify(this.files));
+    }
+
     var defaults = {
-      output: 'svg sprite'
+      loadPaths: false
     };
     var options = this.options(defaults);
-    var files = {src: [], dest: ''};
-    var data = this.data;
+    var files = [];
 
-    if (options.output !== defaults.output) {
-      grunt.log.warn('Only SVG sprites are supported at the moment.');
-      return false;
-    }
+    // Since we offer some very custom ways to build the files object, we need
+    // to resolve paths manually.
+    files = this.files.map(function(f, i) {
+      var srcPatterns = [];
+      var srcFiles = [];
 
-    data.icons.forEach(function(icon) {
-      for (var i = data.sources.length - 1; i >= 0; i--) {
-        var matchedFiles = grunt.file.expand(path.join(data.sources[i], icon + '.svg'));
-
-        if (matchedFiles.length) {
-          Array.prototype.push.apply(files.src, matchedFiles);
-          break;
-        }
+      if (grunt.option('debug')) {
+        grunt.log.writeln('f.orig.src[' + i + ']:', JSON.stringify(f.orig.src));
       }
+
+      //
+      // Add the `.svg` extension to patterns if absent.
+      //
+      srcPatterns = f.orig.src.map(function(pattern) {
+        if (pattern.indexOf('.') === -1) {
+          pattern = pattern + '.svg';
+        }
+
+        return pattern;
+      });
+
+      if (grunt.option('debug')) {
+        grunt.log.writeln(
+          'srcPatterns[' + i + '] (extensioned):',
+          JSON.stringify(srcPatterns)
+        );
+      }
+
+      //
+      // If loadPaths were specfified, attempt to expand each file src pattern
+      // using the loadPaths as cwd. The first matching expansion will be used;
+      // successive loadPaths for that pattern will be skipped.
+      //
+      if (options.loadPaths.length) {
+        if (grunt.option('debug')) {
+          grunt.log.writeln(
+            'loadPaths in use:',
+            JSON.stringify(options.loadPaths)
+          );
+        }
+
+        srcPatterns.forEach(function(pattern) {
+          for (var i = 0, len = options.loadPaths.length; i < len ; i++) {
+            var patternAtLoadPath = path.join(options.loadPaths[i], pattern);
+            var matchedFiles = grunt.file.expand(patternAtLoadPath);
+
+            if (matchedFiles.length) {
+              Array.prototype.push.apply(srcFiles, matchedFiles);
+              break;
+            }
+          }
+        });
+      } else {
+        // If loadPaths were not used, just expand the patterns directly.
+        srcFiles = grunt.file.expand(srcPatterns);
+      }
+
+      if (grunt.option('debug')) {
+        grunt.log.writeln(
+          'srcFiles[' + i + '] (Renormalized sources):',
+          JSON.stringify(srcFiles)
+        );
+      }
+
+      // Return the renormalized file object.
+      return {
+        src: srcFiles,
+        dest: f.dest
+      };
     });
 
-    if (!files.src.length) {
-      grunt.log.warn('No icons found. Make sure at least one directory is given in the `sources` key.');
-      return false;
+    if (grunt.option('debug')) {
+      grunt.log.writeln('Renormalized files:', JSON.stringify(files));
     }
 
-    if (typeof data.dest === 'string') {
-      files.dest = data.dest;
-    } else {
-      grunt.log.warn('Dest must be a single path string.');
-      return false;
-    }
-
-    grunt.log.writeln(files.src);
-    grunt.log.writeln(files.dest);
-
+    // Build config for running plugin-based subtasks.
     grunt.config.merge({
         svgstore: {
             iconpack: {
-                files: [{
-                  src: files.src,
-                  dest: files.dest
-                }],
+                files: files,
             },
         },
         svgmin: {
@@ -75,13 +120,17 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     expand: true,
-                    src: files.dest
+                    src: files.map(function(f) {
+                      return f.dest;
+                    })
                 }]
             }
         }
     });
 
+    // Run subtasks.
     grunt.task.run(['svgstore:iconpack', 'svgmin:iconpack']);
+
   });
 
 };

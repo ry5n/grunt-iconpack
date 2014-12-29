@@ -30,39 +30,45 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     iconpack: {
-      default_options: {
+      using_normal_files_array: {
         options: {},
-        icons: [
-          'chevron-up',
-          'chevron-down',
-          'menu',
-          'search'
-        ],
-        sources: ['test/fixtures/main'],
-        dest: 'tmp/svg-sprite/default-options.svg'
+        files: [{
+          src: [
+            'test/fixtures/custom/**/*.svg',
+            'test/fixtures/vendor/menu.svg',
+            'test/fixtures/vendor/chevron-*.svg'
+          ],
+          dest: 'tmp/svg-sprite/using-normal-files-array.svg'
+        }]
       },
 
-      multiple_sources: {
+      using_extensionless_filenames: {
         options: {},
-        icons: [
-          'chevron-up',
-          'chevron-down',
-          'menu',
-          'search'
-        ],
-        sources: ['test/fixtures/main', 'test/fixtures/alt'],
-        dest: 'tmp/svg-sprite/multiple-sources.svg'
+        files: [{
+          src: [
+            'test/fixtures/custom/search',
+            'test/fixtures/vendor/menu',
+            'test/fixtures/vendor/chevron-*'
+          ],
+          dest: 'tmp/svg-sprite/using-extensionless-filenames.svg'
+        }]
       },
 
-      glob_sources: {
-        options: {},
-        icons: [
-          'chevron-*',
-          'menu',
-          'search'
-        ],
-        sources: ['test/fixtures/main', 'test/fixtures/alt'],
-        dest: 'tmp/svg-sprite/glob-sources.svg'
+      using_load_paths: {
+        options: {
+          loadPaths: [
+            'test/fixtures/custom/**',
+            'test/fixtures/vendor/**'
+          ]
+        },
+        files: [{
+          src: [
+            'menu.svg',
+            'chevron-*.svg',
+            'search'
+          ],
+          dest: 'tmp/svg-sprite/using-load-paths.svg'
+        }]
       }
     },
 

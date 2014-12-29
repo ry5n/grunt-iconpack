@@ -28,32 +28,32 @@ exports.iconpack = {
     done();
   },
 
-  default_options: function(test) {
+  using_normal_files_array: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/svg-sprite/default-options.svg');
-    var expected = grunt.file.read('test/expected/svg-sprite/default-options.svg');
-    test.equal(actual, expected, 'Should build an SVG symbol sheet from given sources.');
+    var actual = grunt.file.read('tmp/svg-sprite/using-normal-files-array.svg');
+    var expected = grunt.file.read('test/expected/svg-sprite/using-normal-files-array.svg');
+    test.equal(actual, expected, 'Should build an SVG symbol sheet using normal Grunt Multi-Task files array.');
 
     test.done();
   },
 
-  multiple_sources: function(test) {
+  using_extensionless_filenames: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/svg-sprite/multiple-sources.svg');
-    var expected = grunt.file.read('test/expected/svg-sprite/multiple-sources.svg');
-    test.equal(actual, expected, 'Should build icons from multiple sources.');
+    var actual = grunt.file.read('tmp/svg-sprite/using-extensionless-filenames.svg');
+    var expected = grunt.file.read('test/expected/svg-sprite/using-extensionless-filenames.svg');
+    test.equal(actual, expected, 'Files array should accept extensionless file names as SVG.');
 
     test.done();
   },
 
-  glob_sources: function(test) {
+  using_load_paths: function(test) {
     test.expect(1);
 
-    var actual = grunt.file.read('tmp/svg-sprite/glob-sources.svg');
-    var expected = grunt.file.read('test/expected/svg-sprite/glob-sources.svg');
-    test.equal(actual, expected, 'Should allow icons to be glob patterns.');
+    var actual = grunt.file.read('tmp/svg-sprite/using-load-paths.svg');
+    var expected = grunt.file.read('test/expected/svg-sprite/using-load-paths.svg');
+    test.equal(actual, expected, 'Should allow conditional loading of icons from multiple sources.');
 
     test.done();
   }
