@@ -13,8 +13,10 @@ var path = require('path');
 module.exports = function(grunt) {
 
   // Load dependencies.
-  grunt.loadNpmTasks('grunt-svgstore');
-  grunt.loadNpmTasks('grunt-svgmin');
+  // We don’t want to use loadTasks or loadNpmTasks because those only work for
+  // the top level of the dependency tree.
+  require('grunt-svgstore/tasks/svgstore')(grunt);
+  require('grunt-svgmin/tasks/svgmin')(grunt);
 
   grunt.registerMultiTask('iconpack', 'Package SVG icons as an SVG sprite.', function() {
 
