@@ -141,11 +141,6 @@ module.exports = function(grunt) {
       var amdWrapper = ['define(function() { return \'', '\'; });'];
       var cjsWrapper = ['module.exports = \'', '\';'];
       var wrapper;
-      var stringEndsWith = function(string, end) {
-        var position = string.length - end.length;
-        var lastIndex = string.indexOf(end, position);
-        return lastIndex !== -1 && lastIndex === position;
-      };
 
       if (typeof options.wrapper === 'string') {
         switch (options.wrapper) {
@@ -179,14 +174,9 @@ module.exports = function(grunt) {
           }
         },
         clean: {
-          iconpack: {
-            src: files.map(function(f) {
-              if (stringEndsWith(f.dest, '.svg.js')) {
-                f.dest = f.dest.replace('.svg.js', '.svg');
-              }
-              return f.dest;
-            })
-          }
+          iconpack: files.map(function(f) {
+            return f.dest;
+          })
         }
       });
 
