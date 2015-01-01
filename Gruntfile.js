@@ -69,6 +69,24 @@ module.exports = function(grunt) {
           ],
           dest: 'tmp/svg-sprite/using-load-paths.svg'
         }]
+      },
+
+      wrap_amd: {
+        options: {
+          loadPaths: [
+            'test/fixtures/custom/**',
+            'test/fixtures/vendor/**'
+          ],
+          wrapper: 'amd'
+        },
+        files: [{
+          src: [
+            'menu.svg',
+            'chevron-*.svg',
+            'search'
+          ],
+          dest: 'tmp/svg-sprite/wrap-amd.svg'
+        }]
       }
     },
 

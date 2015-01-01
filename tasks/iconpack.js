@@ -17,6 +17,7 @@ module.exports = function(grunt) {
   // the top level of the dependency tree.
   require('grunt-svgstore/tasks/svgstore')(grunt);
   require('grunt-svgmin/tasks/svgmin')(grunt);
+  require('grunt-wrap/tasks/wrap')(grunt);
 
   grunt.registerMultiTask('iconpack', 'Package SVG icons as an SVG sprite.', function() {
 
@@ -25,7 +26,8 @@ module.exports = function(grunt) {
     }
 
     var defaults = {
-      loadPaths: false
+      loadPaths: false,
+      wrapper: false
     };
     var options = this.options(defaults);
     var files = [];
@@ -130,8 +132,66 @@ module.exports = function(grunt) {
         }
     });
 
-    // Run subtasks.
+    // Run main subtasks.
     grunt.task.run(['svgstore:iconpack', 'svgmin:iconpack']);
+
+    // Handle the wrapper option.
+
+    if (options.wrapper) {
+      var amdWrapper = ['define(function() { return \'', '\'; });'];
+      var cjsWrapper = ['module.exports = \'', '\';'];
+      var wrapper;
+      var stringEndsWith = function(string, end) {
+        var position = string.length - end.length;
+        var lastIndex = string.indexOf(end, position);
+        return lastIndex !== -1 && lastIndex === position;
+      };
+
+      if (typeof options.wrapper === 'string') {
+        switch (options.wrapper) {
+          case 'amd':
+            wrapper = amdWrapper;
+            break;
+          case 'cjs':
+            wrapper = cjsWrapper;
+            break;
+          default:
+            break;
+        }
+      } else {
+        wrapper = options.wrapper;
+      }
+
+      grunt.config.merge({
+        wrap: {
+          iconpack: {
+            options: {
+              wrapper: wrapper,
+              separator: ''
+            },
+            files: [{
+                expand: true,
+                src: files.map(function(f) {
+                  return f.dest;
+                }),
+                ext: '.svg.js'
+            }]
+          }
+        },
+        clean: {
+          iconpack: {
+            src: files.map(function(f) {
+              if (stringEndsWith(f.dest, '.svg.js')) {
+                f.dest = f.dest.replace('.svg.js', '.svg');
+              }
+              return f.dest;
+            })
+          }
+        }
+      });
+
+      grunt.task.run(['wrap:iconpack', 'clean:iconpack']);
+    }
 
   });
 

@@ -56,5 +56,15 @@ exports.iconpack = {
     test.equal(actual, expected, 'Should allow conditional loading of icons from multiple sources.');
 
     test.done();
+  },
+
+  wrap_amd: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/svg-sprite/wrap-amd.svg.js');
+    var expected = grunt.file.read('test/expected/svg-sprite/wrap-amd.svg.js');
+    test.equal(actual, expected, 'Should wrap SVG output as an AMD module.');
+
+    test.done();
   }
 };
