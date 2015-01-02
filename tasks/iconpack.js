@@ -18,6 +18,7 @@ module.exports = function(grunt) {
   require('grunt-svgstore/tasks/svgstore')(grunt);
   require('grunt-svgmin/tasks/svgmin')(grunt);
   require('grunt-wrap/tasks/wrap')(grunt);
+  require('grunt-contrib-clean/tasks/clean')(grunt);
 
   grunt.registerMultiTask('iconpack', 'Package SVG icons as an SVG sprite.', function() {
 
