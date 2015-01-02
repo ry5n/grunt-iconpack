@@ -30,7 +30,7 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     iconpack: {
-      using_normal_files_array: {
+      normal_files_array: {
         options: {},
         files: [{
           src: [
@@ -38,11 +38,11 @@ module.exports = function(grunt) {
             'test/fixtures/vendor/menu.svg',
             'test/fixtures/vendor/chevron-*.svg'
           ],
-          dest: 'tmp/svg-sprite/using-normal-files-array.svg'
+          dest: 'tmp/svg-sprite/normal-files-array.svg'
         }]
       },
 
-      using_extensionless_filenames: {
+      extensionless_filenames: {
         options: {},
         files: [{
           src: [
@@ -50,11 +50,11 @@ module.exports = function(grunt) {
             'test/fixtures/vendor/menu',
             'test/fixtures/vendor/chevron-*'
           ],
-          dest: 'tmp/svg-sprite/using-extensionless-filenames.svg'
+          dest: 'tmp/svg-sprite/extensionless-filenames.svg'
         }]
       },
 
-      using_load_paths: {
+      load_paths: {
         options: {
           loadPaths: [
             'test/fixtures/custom/**',
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
             'chevron-*.svg',
             'search'
           ],
-          dest: 'tmp/svg-sprite/using-load-paths.svg'
+          dest: 'tmp/svg-sprite/load-paths.svg'
         }]
       },
 
