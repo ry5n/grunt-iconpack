@@ -138,8 +138,8 @@ module.exports = function(grunt) {
     // Handle the wrapper option.
 
     if (options.wrapper) {
-      var amdWrapper = ['define(function() { return \'', '\'; });'];
-      var cjsWrapper = ['module.exports = \'', '\';'];
+      var amdWrapper = ['define(function() { return \'', '\'; });\n'];
+      var cjsWrapper = ['module.exports = \'', '\';\n'];
       var wrapper;
 
       if (typeof options.wrapper === 'string') {
