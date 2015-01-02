@@ -66,5 +66,15 @@ exports.iconpack = {
     test.equal(actual, expected, 'Should wrap SVG output as an AMD module.');
 
     test.done();
+  },
+
+  svg_prefix: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/svg-sprite/svg-prefix.svg');
+    var expected = grunt.file.read('test/expected/svg-sprite/svg-prefix.svg');
+    test.equal(actual, expected, 'Should pass through the ID prefix option to grunt-svgstore.');
+
+    test.done();
   }
 };

@@ -27,7 +27,8 @@ module.exports = function(grunt) {
 
     var defaults = {
       loadPaths: false,
-      wrapper: false
+      wrapper: false,
+      svgPrefix: ''
     };
     var options = this.options(defaults);
     var files = [];
@@ -111,6 +112,9 @@ module.exports = function(grunt) {
     grunt.config.merge({
         svgstore: {
             iconpack: {
+                options: {
+                  prefix: options.svgPrefix
+                },
                 files: files,
             },
         },

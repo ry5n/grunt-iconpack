@@ -87,6 +87,14 @@ module.exports = function(grunt) {
           ],
           dest: 'tmp/svg-sprite/wrap-amd.svg'
         }]
+      },
+
+      svg_prefix: {
+        options: {
+          svgPrefix: 'icon-'
+        },
+        src: ['test/fixtures/custom/**/*.svg'],
+        dest: 'tmp/svg-sprite/svg-prefix.svg'
       }
     },
 
