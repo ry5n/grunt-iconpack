@@ -18,7 +18,6 @@ module.exports = function(grunt) {
   require('grunt-svgstore/tasks/svgstore')(grunt);
   require('grunt-svgmin/tasks/svgmin')(grunt);
   require('grunt-wrap/tasks/wrap')(grunt);
-  require('grunt-contrib-clean/tasks/clean')(grunt);
 
   grunt.registerMultiTask('iconpack', 'Package SVG icons as an SVG sprite.', function() {
 
@@ -173,15 +172,10 @@ module.exports = function(grunt) {
                 ext: '.svg.js'
             }]
           }
-        },
-        clean: {
-          iconpack: files.map(function(f) {
-            return f.dest;
-          })
         }
       });
 
-      grunt.task.run(['wrap:iconpack', 'clean:iconpack']);
+      grunt.task.run(['wrap:iconpack']);
     }
 
   });
