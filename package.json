@@ -1,7 +1,7 @@
 {
   "name": "grunt-iconpack",
   "description": "Package SVG icons as an SVG sprite.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/ry5n/grunt-iconpack",
   "author": {
     "name": "Ryan L. Frederick",
