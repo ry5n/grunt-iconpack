@@ -48,6 +48,19 @@ This makes it easy to combine icon sets without having to write out the paths fo
 
 When using this option, the `src` files can contain any normal Grunt globbing patterns which will be expanded under each load path, `loadPaths` values can themselves contain glob patterns.
 
+#### options.svgPrefix
+Type: `String`
+Default value: `''`
+
+Add a prefix to the beginning of `<symbol>` ids. Useful as a namespace to 
+avoid id attribute collisions. Example value: `'icon-'`.
+
+#### options.removeTitleElement
+Type: `Boolean`
+Default value: `true`
+
+By default, SVG `<title>` elements are removed. Change this option to `false` to keep them.
+
 ## Other Configuration
 
 In addition to the `loadPaths` option, this module allows you to leave off extensions in `src` file paths. If absent, `.svg` will automatically be appended.
