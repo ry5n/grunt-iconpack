@@ -95,7 +95,21 @@ module.exports = function(grunt) {
         },
         src: ['test/fixtures/custom/**/*.svg'],
         dest: 'tmp/svg-sprite/svg-prefix.svg'
-      }
+      },
+
+      include_titles: {
+        options: {
+          removeTitleElement: false
+        },
+        files: [{
+          src: [
+            'test/fixtures/custom/**/*.svg',
+            'test/fixtures/vendor/menu.svg',
+            'test/fixtures/vendor/chevron-*.svg'
+          ],
+          dest: 'tmp/svg-sprite/include-titles.svg'
+        }]
+      },
     },
 
     // Unit tests.
