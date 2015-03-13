@@ -28,7 +28,8 @@ module.exports = function(grunt) {
     var defaults = {
       loadPaths: false,
       wrapper: false,
-      svgPrefix: ''
+      svgPrefix: '',
+      removeTitleElement: true
     };
     var options = this.options(defaults);
     var files = [];
@@ -122,7 +123,7 @@ module.exports = function(grunt) {
             iconpack: {
                 options: {
                     plugins: [
-                        {removeTitle: true},
+                        {removeTitle: options.removeTitleElement},
                         {cleanupIDs: false}
                     ]
                 },
