@@ -76,5 +76,15 @@ exports.iconpack = {
     test.equal(actual, expected, 'Should pass through the ID prefix option to grunt-svgstore.');
 
     test.done();
-  }
+  },
+
+  include_titles: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/svg-sprite/include-titles.svg');
+    var expected = grunt.file.read('test/expected/svg-sprite/include-titles.svg');
+    test.equal(actual, expected, 'Should build an SVG symbol sheet including Title elements.');
+
+    test.done();
+  },
 };
